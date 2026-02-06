@@ -1,0 +1,350 @@
+@import "tailwindcss";
+
+/* ============================================================
+   TAILWIND V4 — CUSTOM VARIANT FOR DARK MODE (class-based)
+   ============================================================ */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ============================================================
+   SOURCE DETECTION — tell Tailwind where to scan for classes
+   ============================================================ */
+@source "../components";
+@source "../data";
+@source "../lib";
+
+/* ============================================================
+   THEME — "Midnight Forge" design tokens
+   ============================================================ */
+@theme {
+  /* Fonts */
+  --font-display: "Syne", sans-serif;
+  --font-body: "Outfit", sans-serif;
+
+  /* Display font sizes */
+  --text-display-xl: clamp(3rem, 8vw, 8rem);
+  --text-display-xl--line-height: 0.95;
+  --text-display-xl--letter-spacing: -0.03em;
+
+  --text-display-lg: clamp(2.5rem, 6vw, 5rem);
+  --text-display-lg--line-height: 1;
+  --text-display-lg--letter-spacing: -0.02em;
+
+  --text-display-md: clamp(2rem, 4vw, 3.5rem);
+  --text-display-md--line-height: 1.1;
+  --text-display-md--letter-spacing: -0.02em;
+
+  --text-display-sm: clamp(1.5rem, 3vw, 2rem);
+  --text-display-sm--line-height: 1.2;
+  --text-display-sm--letter-spacing: -0.01em;
+
+  /* Custom colors via CSS variables below */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border-color);
+  --color-border-hover: var(--border-hover);
+  --color-ring: var(--ring);
+
+  /* Animations */
+  --animate-fade-in: fadeIn 0.6s ease-out forwards;
+  --animate-slide-up: slideUp 0.6s ease-out forwards;
+  --animate-slide-in-right: slideInRight 0.6s ease-out forwards;
+  --animate-scale-in: scaleIn 0.5s ease-out forwards;
+  --animate-pulse-soft: pulseSoft 2s ease-in-out infinite;
+  --animate-grain: grain 8s steps(10) infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-marquee: marquee 30s linear infinite;
+  --animate-spin-slow: spin 20s linear infinite;
+
+  /* Easing */
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* ============================================================
+   KEYFRAMES
+   ============================================================ */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+  from { opacity: 0; transform: translateX(-30px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes scaleIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes pulseSoft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-5%, -10%); }
+  20% { transform: translate(-15%, 5%); }
+  30% { transform: translate(7%, -25%); }
+  40% { transform: translate(-5%, 25%); }
+  50% { transform: translate(-15%, 10%); }
+  60% { transform: translate(15%, 0%); }
+  70% { transform: translate(0%, 15%); }
+  80% { transform: translate(3%, 35%); }
+  90% { transform: translate(-10%, 10%); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* ============================================================
+   DESIGN TOKENS — CSS custom properties for light/dark modes
+   ============================================================ */
+:root {
+  --background: #fafaf9;
+  --foreground: #0a0a0a;
+  --card: #ffffff;
+  --card-foreground: #0a0a0a;
+  --muted: #f5f5f4;
+  --muted-foreground: #78716c;
+  --accent: #ea580c;
+  --accent-foreground: #ffffff;
+  --border-color: #e7e5e4;
+  --border-hover: #d6d3d1;
+  --ring: #ea580c;
+}
+
+.dark {
+  --background: #050505;
+  --foreground: #fafaf9;
+  --card: #0a0a0a;
+  --card-foreground: #fafaf9;
+  --muted: #141414;
+  --muted-foreground: #a1a1aa;
+  --accent: #f97316;
+  --accent-foreground: #050505;
+  --border-color: #1c1c1c;
+  --border-hover: #2a2a2a;
+  --ring: #f97316;
+}
+
+/* ============================================================
+   BASE STYLES
+   ============================================================ */
+* {
+  border-color: var(--border-color);
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+}
+
+::selection {
+  background-color: var(--accent);
+  color: var(--accent-foreground);
+}
+
+/* ============================================================
+   NOISE / GRAIN OVERLAY
+   ============================================================ */
+.noise-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.025;
+}
+
+.noise-overlay::after {
+  content: "";
+  position: absolute;
+  inset: -200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 256px 256px;
+  animation: grain 8s steps(10) infinite;
+}
+
+.dark .noise-overlay {
+  opacity: 0.035;
+}
+
+/* ============================================================
+   CUSTOM SCROLLBAR
+   ============================================================ */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--background);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-hover);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--muted-foreground);
+}
+
+/* ============================================================
+   TEXT UTILITIES
+   ============================================================ */
+.text-gradient {
+  background: linear-gradient(135deg, var(--accent) 0%, #fbbf24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-outline {
+  -webkit-text-stroke: 1.5px var(--foreground);
+  -webkit-text-fill-color: transparent;
+}
+
+.dark .text-outline {
+  -webkit-text-stroke: 1.5px rgba(250, 250, 249, 0.3);
+}
+
+/* ============================================================
+   LAYOUT UTILITIES
+   ============================================================ */
+.section-padding {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+@media (min-width: 640px) { .section-padding { padding-left: 2rem; padding-right: 2rem; } }
+@media (min-width: 768px) { .section-padding { padding-left: 3rem; padding-right: 3rem; } }
+@media (min-width: 1024px) { .section-padding { padding-left: 5rem; padding-right: 5rem; } }
+@media (min-width: 1280px) { .section-padding { padding-left: 7rem; padding-right: 7rem; } }
+
+.container-wide {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  max-width: 1440px;
+}
+
+/* ============================================================
+   GLOW / ACCENT EFFECTS
+   ============================================================ */
+.glow-accent {
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.15),
+              0 0 60px rgba(249, 115, 22, 0.05);
+}
+
+.dark .glow-accent {
+  box-shadow: 0 0 20px rgba(249, 115, 22, 0.2),
+              0 0 60px rgba(249, 115, 22, 0.08);
+}
+
+/* ============================================================
+   CARD STYLES
+   ============================================================ */
+.card-hover {
+  transition: transform 0.4s cubic-bezier(0.19, 1, 0.22, 1),
+              box-shadow 0.4s cubic-bezier(0.19, 1, 0.22, 1),
+              border-color 0.4s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  border-color: var(--border-hover);
+}
+
+.dark .card-hover:hover {
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================================================
+   ANIMATION UTILITIES
+   ============================================================ */
+.reveal-up {
+  opacity: 0;
+  transform: translateY(40px);
+}
+
+.reveal-up.revealed {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.8s cubic-bezier(0.19, 1, 0.22, 1),
+              transform 0.8s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.stagger-1 { transition-delay: 0.05s; }
+.stagger-2 { transition-delay: 0.1s; }
+.stagger-3 { transition-delay: 0.15s; }
+.stagger-4 { transition-delay: 0.2s; }
+.stagger-5 { transition-delay: 0.25s; }
+.stagger-6 { transition-delay: 0.3s; }
+
+/* ============================================================
+   REDUCED MOTION
+   ============================================================ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .noise-overlay {
+    display: none;
+  }
+
+  .reveal-up {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ============================================================
+   PRINT STYLES (for Resume page)
+   ============================================================ */
+@media print {
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background: white;
+    color: black;
+  }
+
+  .print-break-before {
+    page-break-before: always;
+  }
+}
