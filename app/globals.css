@@ -158,6 +158,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* Offset anchor scroll targets to clear fixed navbar */
+[id] {
+  scroll-margin-top: 5rem;
+}
+
 body {
   background-color: var(--background);
   color: var(--foreground);
