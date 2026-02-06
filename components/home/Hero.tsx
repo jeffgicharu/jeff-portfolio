@@ -20,9 +20,23 @@ export default function Hero() {
 
     let mouse = { x: -1000, y: -1000 };
     let animId: number;
+    let isVisible = true;
     const DOT_SPACING = 40;
     const DOT_RADIUS = 1;
     const INFLUENCE_RADIUS = 150;
+
+    // Pause canvas when hero is off-screen to save CPU
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        const wasVisible = isVisible;
+        isVisible = entry.isIntersecting;
+        if (isVisible && !wasVisible && !prefersReduced) {
+          animId = requestAnimationFrame(draw);
+        }
+      },
+      { threshold: 0 }
+    );
+    observer.observe(canvas);
 
     const resize = () => {
       const dpr = Math.min(window.devicePixelRatio, 2);
@@ -68,7 +82,7 @@ export default function Hero() {
         }
       }
 
-      if (!prefersReduced) {
+      if (!prefersReduced && isVisible) {
         animId = requestAnimationFrame(draw);
       }
     };
@@ -84,6 +98,7 @@ export default function Hero() {
     window.addEventListener("mousemove", onMouseMove, { passive: true });
 
     return () => {
+      observer.disconnect();
       window.removeEventListener("resize", resize);
       window.removeEventListener("mousemove", onMouseMove);
       cancelAnimationFrame(animId);
