@@ -1,14 +1,14 @@
 import type { Metadata } from "next";
-import { Syne, Outfit } from "next/font/google";
+import { Bricolage_Grotesque, DM_Sans } from "next/font/google";
 import "./globals.css";
 
-const syne = Syne({
+const bricolage = Bricolage_Grotesque({
   subsets: ["latin"],
   variable: "--font-display",
   display: "swap",
 });
 
-const outfit = Outfit({
+const dmSans = DM_Sans({
   subsets: ["latin"],
   variable: "--font-body",
   display: "swap",
@@ -119,7 +119,7 @@ export default function RootLayout({
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
         />
       </head>
-      <body className={`${syne.variable} ${outfit.variable} font-body`}>
+      <body className={`${bricolage.variable} ${dmSans.variable} font-body`}>
         {/* Noise grain overlay */}
         <div className="noise-overlay" aria-hidden="true" />
         {children}
