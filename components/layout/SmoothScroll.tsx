@@ -23,7 +23,21 @@ export default function SmoothScroll({ children }: { children: ReactNode }) {
     }
     requestAnimationFrame(raf);
 
+    // Intercept anchor link clicks for smooth scrolling
+    const handleAnchorClick = (e: MouseEvent) => {
+      const target = (e.target as HTMLElement).closest("a");
+      if (!target) return;
+      const href = target.getAttribute("href");
+      if (!href || !href.startsWith("#")) return;
+      const el = document.querySelector(href);
+      if (!el) return;
+      e.preventDefault();
+      lenis.scrollTo(el as HTMLElement, { offset: -80 });
+    };
+    document.addEventListener("click", handleAnchorClick);
+
     return () => {
+      document.removeEventListener("click", handleAnchorClick);
       lenis.destroy();
     };
   }, []);
