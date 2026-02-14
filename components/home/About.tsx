@@ -68,7 +68,7 @@ export default function About() {
           <div className="about-reveal lg:col-span-5">
             <div className="relative aspect-[4/5] overflow-hidden rounded-2xl border border-border bg-muted">
               <img
-                src="https://images.unsplash.com/photo-1607990281513-2c110a25bd8c?w=600&q=80"
+                src="/images/jeff-gicharu.jpg"
                 alt="Jeff Gicharu — Full-Stack Developer"
                 className="h-full w-full object-cover"
                 loading="lazy"
